@@ -1,8 +1,7 @@
-FROM sonarqube:7.9.4-community
+FROM sonarqube:8.5-community
 
 USER root
 
-RUN apt-get update -y && apt-get install wget -y
 COPY resources/healthcheck /usr/local/bin/
 
 USER sonarqube

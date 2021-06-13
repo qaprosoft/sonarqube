@@ -82,7 +82,7 @@ CONTAINER_NAME="sonarqube"
     status
     if [[ $? -ne -1 ]]; then
       echo "Backup $CONTAINER_NAME container"
-      docker run --rm --volumes-from $CONTAINER_NAME -v $(pwd)/backup:/var/backup "ubuntu" tar -czvf /var/backup/sonarqube.tar.gz /opt/sonarqube
+      docker run --rm --volumes-from $CONTAINER_NAME -v "$(pwd)"/backup:/var/backup "ubuntu" tar -czvf /var/backup/sonarqube.tar.gz /opt/sonarqube
     else
       echo_warning "Impossible backup $CONTAINER_NAME container!"
       echo_telegram
@@ -98,7 +98,7 @@ CONTAINER_NAME="sonarqube"
     if [[ $? -ne -1 ]]; then
       echo "Restore $CONTAINER_NAME container"
       stop
-      docker run --rm --volumes-from $CONTAINER_NAME -v $(pwd)/backup:/var/backup "ubuntu" bash -c "cd / && tar -xzvf /var/backup/sonarqube.tar.gz"
+      docker run --rm --volumes-from $CONTAINER_NAME -v "$(pwd)"/backup:/var/backup "ubuntu" bash -c "cd / && tar -xzvf /var/backup/sonarqube.tar.gz"
       down
     else
       echo_warning "Impossible restore $CONTAINER_NAME container"
@@ -135,7 +135,7 @@ CONTAINER_NAME="sonarqube"
   }
 
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd ${BASEDIR}
+cd ${BASEDIR} || exit
 
 case "$1" in
     setup)
